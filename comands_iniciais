@@ -1,0 +1,47 @@
+echo "# vagrant" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/waynerferreira/vagrant.git
+git push -u origin main
+
+
+# Processo criar mais de uma maquina na vm ao mesmo tempo
+#exemplo vagrant
+(1..3).each do |i|
+  config.vm.define "node-#{i}" do |node|
+    node.vm.provision "shell",
+      inline: "echo hello from node #{i}"
+  end
+end
+
+#teste com exemplo debian/jessie
+
+Vagrant.configure("2") do |config|
+(1..3).each do |i|
+  config.vm.define "debian_#{i}" do |debian|
+    config.vm.box = "debian/jessie64"
+      debian.vm.network "public_network", bridge: "enp8s0"
+      end
+  end
+end
+
+# comands para iniciar o processo de criação
+crie um novo diretório
+mkdir testevagrant
+cd testevagrant
+vagrant init
+vagrant up
+acesse o Vagrantfile
+isira o conteudo das linhas 21-28
+vagrant up
+
+vagrant ssh debian_1 (debian_2 ou debian_3)
+caso não consiga acessar via ssh e o nome setado como no exemplo acima , onde cada maquina iria ter o nome de debian_1 , *_2 e *_3
+pode executar o comando para listar o status das instancias e acessar via ssh pelo id da mesma
+
+vagrant global-status
+vagrant ssh bb6b02b (seria um id qualquer disponivel)
+
+
